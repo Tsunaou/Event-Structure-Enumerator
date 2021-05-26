@@ -1,5 +1,6 @@
 import numpy as np
 from typing import List
+import json
 
 
 def binDigits(n, bits):
@@ -81,6 +82,19 @@ def filterPositionsId(line: np.array):
 
 def setFilterPositionsId(line: np.array):
     return set(filterPositionsId(line))
+
+
+def save_obj2json(obj, filepath):
+    print("Save obj into {}".format(filepath))
+    with open(filepath, 'w') as file:
+        json.dump(obj, file)
+
+
+def load_json(filepath):
+    print("Load obj from {}".format(filepath))
+    with open(filepath, 'r') as file:
+        obj = json.load(file)
+        return obj
 
 
 if __name__ == '__main__':

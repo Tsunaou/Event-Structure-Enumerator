@@ -3,7 +3,7 @@ import time
 
 from typing import List
 from lemma1 import cond1, cond2, cond3, concat, cond2v2, cond3v2
-from utils import adj2PairList, antiSymmetric, setDiagTrue, setDiagFalse, makeAlphas
+from utils import adj2PairList, antiSymmetric, setDiagTrue, setDiagFalse, makeAlphas, save_obj2json, load_json
 
 
 def get_cond3(A, alpha):
@@ -52,7 +52,13 @@ def enumeratePo(N) -> List[np.ndarray]:
     return Po
 
 
-if __name__ == '__main__':
+def enumerateStrictPOsAdj(N) -> List[np.ndarray]:
+    strictPOs = enumerateStrictPOs(N)
+    Po = list(map(adj2PairList, strictPOs))
+    return Po
+
+
+def test():
     start = time.time()
     pos = list()
     preOrders = list()
@@ -64,3 +70,17 @@ if __name__ == '__main__':
         print("Number of Po[{}] is {}".format(i, pos[i].__len__()))
     end = time.time()
     print("Time for cond2v2:%.2f seconds" % (end - start))
+
+if __name__ == '__main__':
+
+    n = 8
+    filename = "strictPo0-{}.json".format(n)
+    strictPos = dict()
+
+    for i in range(n):
+        strictPo = enumerateStrictPOsAdj(i)
+        strictPos[i] = strictPo
+
+    save_obj2json(strictPos, filename)
+    res = load_json(filename)
+    print(strictPos == res)
